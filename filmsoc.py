@@ -14,6 +14,7 @@ class Film(object):
         self.title = film_data['title']
         self.id = film_data['film_id']
         self.review = film_data['review']
+        self.gauge = film_data['gauge'].lower()
 
         if film_data['runtime'].strip() != '':
             self.runtime = int(film_data['runtime'])
