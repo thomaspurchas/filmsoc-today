@@ -40,7 +40,7 @@ def get_films():
 def get_todays_film():
     films = get_films()
 
-    films.sort(key=lambda film: film.show_times[0], reverse=True)
+    films.sort(key=lambda film: film.show_times[0])
 
     if len(films) > 0:
         return films[0]
