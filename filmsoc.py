@@ -39,6 +39,9 @@ class Film(object):
         else:
             self.imdb_id = None
 
+    def _find_imdb():
+
+        pass
 
 class Filmsoc(object):
 
@@ -47,8 +50,22 @@ class Filmsoc(object):
 
         films = []
         for film in r.json():
-            films.append(Film(film))
+            try:
+                films.append(Film(film))
+            except AttributeError:
+                pass
 
         return films
+
+    def get_imdb(self, id):
+        r = requests.get('https://www.filmsoc.warwick.ac.uk/filminfo', params={'id': id})
+
+        imdb = re.search('(tt[0-9]{7})', r.text)
+
+        if imdb:
+            return imdb.group(0)
+
+        return None
+
 
 filmsoc = Filmsoc()
