@@ -1,8 +1,11 @@
-from flask import Flask
+import os
+import errno
+from flask import Flask, send_file, render_template
 from werkzeug.contrib.cache import SimpleCache
 from urlparse import urljoin
+import requests
 from filmsoc import filmsoc
-
+from trakt import TraktClient
 
 IMDB_ID_REGEX = "([0-9]{7})"
 
@@ -97,6 +100,8 @@ def today():
     film = get_todays_film()
     if not film:
         return ''
+
+    return render_template('home.html', film_id=film.id)
 
 
 
