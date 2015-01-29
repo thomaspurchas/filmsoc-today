@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<section id="movie-summary" style="background-image: url({{ url_for('get_image', movie_id=film_id, service='trakt', image_type='fanart') }})">
+<section id="movie-summary" style="background-image: url({{ get_movie_image('trakt', 'fanart') }})">
 
 </section>
 

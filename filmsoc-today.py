@@ -1,6 +1,6 @@
 import os
 import errno
-from flask import Flask, send_file, render_template
+from flask import Flask, send_file, render_template, url_for
 from werkzeug.contrib.cache import SimpleCache
 from urlparse import urljoin
 import requests
@@ -79,6 +79,14 @@ def get_trakt_image(imdb_id, image_type):
         download_file(url, image_path)
 
     return send_file(image_path)
+
+
+@app.context_processor
+def image_processor():
+    def get_movie_image(service, image_type):
+        movie_id = get_todays_film().id
+        return url_for('get_image', movie_id=movie_id, service=service, image_type=image_type)
+    return dict(get_movie_image=get_movie_image)
 
 
 @app.route('/image/<movie_id>/<service>/<image_type>')
