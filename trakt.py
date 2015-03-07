@@ -1,6 +1,13 @@
 import requests
 
 
+class TraktAPIError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
+
 class Releases(list):
 
     def __getitem__(self, key):
@@ -84,6 +91,8 @@ class TraktClient(object):
             headers['Authorization'] = 'Bearer %s' % self.oAuth_token
 
         r = requests.get(uri, headers=headers, params=query_params)
+        if r.status_code != requests.codes.ok:
+            raise TraktAPIError('HTTP %s status code returned' % r.status_code)
 
         return r.json()
 

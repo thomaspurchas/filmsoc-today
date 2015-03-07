@@ -100,13 +100,24 @@ textarea {
 #movie-summary {
     height: 550px;
     background-size: cover;
-    background-position: center;
+    background-position: 50% 5%;
+    position: relative;
 }
 
 #movie-detail {
 
 }
 
+#movie-title {
+    position: absolute;
+    bottom: 0;
+    color: white;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
 
 
 
