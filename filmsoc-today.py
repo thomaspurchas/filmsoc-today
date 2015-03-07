@@ -4,6 +4,7 @@ from flask import Flask, send_file, render_template, url_for
 from werkzeug.contrib.cache import SimpleCache
 from urlparse import urljoin
 import requests
+import humanize
 from filmsoc import filmsoc
 from trakt import TraktClient
 
@@ -21,6 +22,15 @@ TRAKT_CLIENT.set_oAuth_token(TRAKT_OAUTH_TOKEN)
 
 APP_LOCATION = os.path.dirname(os.path.realpath(__file__))
 TEMP_IMAGE_LOC = os.path.join(APP_LOCATION, 'images/')
+
+
+def suffix(d):
+    return 'th' if 11<=d<=13 else {1:'st',2:'nd',3:'rd'}.get(d%10, 'th')
+
+
+def custom_strftime(format, t):
+    return t.strftime(format).replace('{S}', str(t.day) + suffix(t.day))
+
 
 def mkdir_p(path):
     try:
@@ -109,7 +119,9 @@ def today():
     if not film:
         return ''
 
-    return render_template('home.html', film_id=film.id)
+    date = humanize.naturalday(film.show_times[0]).title()
+
+    return render_template('home.html', film_id=film.id, film_title=film.title, date=date)
 
 
 
